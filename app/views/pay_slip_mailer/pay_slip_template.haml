@@ -1,0 +1,79 @@
+= image_tag 'kiprosh_logo.png', class: 'kiprosh_logo'
+
+.main_content
+  %table.width100
+    %tr.border_top.bigger_font.bold{style: "background-color: #f4f4f4"}
+      %td.width80(colspan="5")
+        %span.name.float_left #{obj.associate_name}
+        %span.title.float_right Payslip
+      %td.width20.center_align(colspan="1") #{obj.month} #{obj.year}
+    %tr.bold{style: "background-color: #f4f4f4"}
+      %td.width50.center_align(colspan="3") Employee Details
+      %td.width50.center_align(colspan="3") Payment & Location Details
+    %tr
+      %td.bold Employee Number
+      %td(colspan="2") #{obj.associate_number}
+      %td.bold(colspan="2") Location
+      %td Mumbai
+    %tr
+      %td.bold Designation
+      %td(colspan="2") #{obj.associate_designation}
+      %td.bold(colspan="2") Days Paid
+      %td #{obj.days_paid}
+    %tr
+      %td.bold Income Tax number (PAN)
+      %td(colspan="2") #{obj.associate_pan_number}
+      %td(colspan="2")
+      %td
+    %tr.bold.center_align{style: "background-color: #f4f4f4;"}
+      %td Earnings
+      %td(colspan="2")
+        %span Current
+        %span.smaller_font (INR)
+      %td(colspan="2") Deductions
+      %td
+        %span Amount
+        %span.smaller_font (INR)
+    %tr
+      %td Basic Pay
+      %td.right_align(colspan="2") #{number_to_indian_currency(obj.basic_pay)}
+      %td(colspan="2") Tax deducted at source (TDS)
+      %td.right_align #{number_to_indian_currency(obj.tds)}
+
+    - [obj.earnings.count, obj.deductions.count].max.times do |i|
+      - earning = obj.earnings[i] || []
+      - deduction = obj.deductions[i] || []
+      %tr
+        %td #{earning[0]}
+        %td.right_align(colspan="2") #{number_to_indian_currency(earning[1])}
+        %td(colspan="2") #{deduction[0]}
+        %td.right_align #{number_to_indian_currency(deduction[1])}
+
+    %tr.bold.big_font{style: "background-color: #f4f4f4"}
+      %td Total Earnings
+      %td.right_align(colspan="2") #{number_to_indian_currency(obj.total_earnings)}
+      %td(colspan="2") Total deductions
+      %td.right_align #{number_to_indian_currency(obj.total_deductions)}
+
+    %tr
+      %td.blank_row
+    %tr
+      %td.blank_row
+    %tr
+      %td.blank_row
+
+    %tr.bold
+      %td.blue_background.center_align.border_top{rowspan: "2"} Retirals
+      %td.center_align.border_top.width10 Provident Fund
+      %td.center_align.border_top.width10 Gratuity
+      %td.blank_row{rowspan: "2"} &nbsp;
+      %td.blue_background.center_align.border_top.border_left{rowspan: "2"}
+        %span Net pay
+        %span.smaller_font (INR)
+      %td.border_top.right_align{rowspan: "2"} #{number_to_indian_currency(obj.net_amount)}
+    %tr.bold
+      %td.center_align #{number_to_indian_currency(obj.pf_amount)}
+      %td.center_align #{number_to_indian_currency(obj.gratuity)}
+
+
+

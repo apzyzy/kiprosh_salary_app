@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: salary_app_development
+
+test:
+  <<: *default
+  database: salary_app_test
+
+# DATABASE_URL is added automatically
+# and merged with these properties on heroku
+production:
+  <<: *default
