@@ -45,7 +45,7 @@ class ProcessExcelRow
 
   def gratuity
     rate = Configuration.get_value('gratuity_rate')
-    (basic_pay.to_i * rate) / 100
+    ((basic_pay.to_i * rate) / 100).floor
   end
 
   def net_amount
@@ -70,18 +70,18 @@ class ProcessExcelRow
   end
 
   def total_deductions
-    row_to_a[23]
+    row_to_a[23][1]
   end
 
   def total_earnings
-    row_to_a[18]
+    row_to_a[18][1]
   end
 
   private
 
   def except_basic_pay(arr)
     return arr unless arr.is_a?(Array)
-    arr.reject { |a, b| a.lowercase == 'basic pay' }
+    arr.reject { |a, b| a.downcase == 'basic pay' }
   end
 
   def reject_empty_values(arr)

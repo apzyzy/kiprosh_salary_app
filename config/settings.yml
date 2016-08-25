@@ -12,3 +12,6 @@ smtp:
 
 delayed_jobs:
   enabled: <%= ENV['DELAYED_JOBS_ENABLED'] || true %>
+
+mailer:
+  test_recipient: "<%= ENV['EMAIL_TEST_RECIPIENT'] %>"

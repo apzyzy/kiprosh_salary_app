@@ -1,4 +1,4 @@
-= image_tag 'kiprosh_logo.png', class: 'kiprosh_logo'
+= image_tag wicked_pdf_asset_base64('kiprosh_logo.png'), class: 'kiprosh_logo'
 
 .main_content
   %table.width100
@@ -74,6 +74,23 @@
     %tr.bold
       %td.center_align #{number_to_indian_currency(obj.pf_amount)}
       %td.center_align #{number_to_indian_currency(obj.gratuity)}
+
+    %tr
+      %td.blank_row
+    %tr
+      %td.blank_row
+    %tr
+      %td.blank_row
+
+    - if obj.remarks.present?
+      %tr
+        %td.border_top{colspan: "1"} Remarks
+        %td.border_top{colspan: "5"}
+          %ul
+            - obj.remarks.each do |remark|
+              %li #{remark}
+
+  .special_note.bold.center_align.smaller_font (This is computer generate pay slip. Signature is not required.)
 
 
 

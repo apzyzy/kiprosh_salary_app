@@ -2,7 +2,8 @@
 class SendPaySlipJob < ApplicationJob
   def perform(month, year, row)
     obj = ProcessExcelRow.new(month, year, row)
-    return unless obj.associate
+    associate = obj.associate
+    return unless associate && associate&.email
 
     PaySlipMailer.email_payslip(obj).deliver_now
   end
