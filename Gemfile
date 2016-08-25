@@ -4,7 +4,7 @@ ruby '2.3.1'
 gem 'rails', '5.0.0.1'
 
 gem 'activeadmin', github: 'activeadmin'
-gem 'activerecord-import'
+gem 'activerecord-import', require: false
 gem 'carrierwave'
 gem 'coffee-rails'
 gem 'config'
