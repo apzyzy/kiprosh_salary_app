@@ -23,7 +23,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true # need to have it true - https://github.com/mileszs/wicked_pdf/issues/476
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
