@@ -37,7 +37,7 @@
     %tr
       %td Basic Pay
       %td.right_align(colspan="2") #{number_to_indian_currency(obj.basic_pay)}
-      %td(colspan="2") Tax deducted at source (TDS)
+      %td(colspan="2") Tax Deducted at Source (TDS)
       %td.right_align #{number_to_indian_currency(obj.tds)}
 
     - [obj.earnings.count, obj.deductions.count].max.times do |i|
@@ -50,9 +50,9 @@
         %td.right_align #{number_to_indian_currency(deduction[1])}
 
     %tr.bold.big_font{style: "background-color: #f4f4f4"}
-      %td Total Earnings
+      %td.center_align Total Earnings
       %td.right_align(colspan="2") #{number_to_indian_currency(obj.total_earnings)}
-      %td(colspan="2") Total deductions
+      %td.center_align(colspan="2") Total deductions
       %td.right_align #{number_to_indian_currency(obj.total_deductions)}
 
     %tr
