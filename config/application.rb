@@ -24,7 +24,6 @@ module SalaryApp
     config.action_mailer.smtp_settings = {
       address:               Settings.smtp.address,
       port:                  Settings.smtp.port,
-      domain:                Settings.smtp.domain,
       user_name:             Settings.smtp.user_name,
       password:              Settings.smtp.password,
       authentication:        'plain',

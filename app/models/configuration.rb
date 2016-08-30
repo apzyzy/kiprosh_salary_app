@@ -5,6 +5,10 @@ class Configuration < ApplicationRecord
   end
 
   class << self
+    def enabled?(key)
+      value_enabled?(get(key))
+    end
+
     def get(key)
       value = Configuration.find_by(key: key)&.value
       value.is_a?(Hash) ? value.with_indifferent_access : value
@@ -23,6 +27,12 @@ class Configuration < ApplicationRecord
         break unless obj
         obj[k]
       end
+    end
+
+    private
+
+    def value_enabled?(value)
+      value.try(:[], 'enabled')
     end
   end
 end

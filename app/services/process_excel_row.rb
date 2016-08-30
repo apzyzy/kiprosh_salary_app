@@ -36,11 +36,11 @@ class ProcessExcelRow
   end
 
   def deductions
-    reject_empty_values except(row_to_a[19..22], 'tax deducted at source (tds)')
+    except(row_to_a[19..22], ['tax deducted at source (tds)'])
   end
 
   def earnings
-    reject_empty_values except(row_to_a[2..17], 'basic pay')
+    except(row_to_a[2..17], earnings_to_exclude)
   end
 
   def gratuity
@@ -57,7 +57,8 @@ class ProcessExcelRow
   end
 
   def pf_amount
-    row_hash['employees contribution to pf (epf)']
+    rate = Configuration.get_value('pf_rate')
+    ((basic_pay.to_i * rate) / 100).floor
   end
 
   def remarks
@@ -79,14 +80,16 @@ class ProcessExcelRow
 
   private
 
-  def except(arr, value)
-    return arr unless arr.is_a?(Array)
-    arr.reject { |a, b| a.downcase == value }
+  def earnings_to_exclude
+    exclude = ['basic pay'] # will be added in UI separately
+    exclude << 'special allowance' unless Configuration.enabled?('special_allowance')
+    exclude << 'telephone reimbusement' unless Configuration.enabled?('telephone_reimbusement')
+    exclude
   end
 
-  def reject_empty_values(arr)
+  def except(arr, values)
     return arr unless arr.is_a?(Array)
-    arr.reject { |a, b| b == '-' || b.blank? || b == "0" }
+    arr.reject { |a, b| a.downcase.in? values }
   end
 
   def row_hash
