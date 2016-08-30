@@ -1,7 +1,7 @@
 ActiveAdmin.register PaySlip do
   permit_params :month, :year, :file
 
-  filter :admin_user, collection: AdminUser.pluck(:email)
+  filter :admin_user, collection: AdminUser.pluck(:email, :id)
   filter :month
   filter :year
 
