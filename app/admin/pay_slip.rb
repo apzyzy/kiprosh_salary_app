@@ -1,6 +1,10 @@
 ActiveAdmin.register PaySlip do
   permit_params :month, :year, :file
 
+  filter :admin_user, collection: AdminUser.pluck(:email)
+  filter :month
+  filter :year
+
   actions :all, except: [:edit, :update, :destroy]
 
   controller do
@@ -17,6 +21,14 @@ ActiveAdmin.register PaySlip do
         redirect_to new_admin_pay_slip_url
       end
     end
+  end
+
+  index do
+    column :id
+    column :month
+    column :year
+    column :admin_user
+    column :created_at
   end
 
   form do |f|
