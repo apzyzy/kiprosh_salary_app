@@ -39,7 +39,7 @@ class ProcessExcelRow
   end
 
   def deductions
-    except(row_to_a[19..22], ['tax deducted at source (tds)'])
+    except(row_to_a[19..22], ['employees contribution to pf (epf)'])
   end
 
   def earnings
@@ -64,11 +64,6 @@ class ProcessExcelRow
 
   def remarks
     row_hash['remarks'].split(";")
-  end
-
-  def tds
-    value = row_hash['tax deducted at source (tds)']
-    (value == '-' || value.nil?) ? '0' : value
   end
 
   def total_deductions

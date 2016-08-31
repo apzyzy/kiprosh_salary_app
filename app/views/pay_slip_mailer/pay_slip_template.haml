@@ -37,8 +37,8 @@
     %tr
       %td Basic Pay
       %td.right_align(colspan="2") #{number_to_indian_currency(obj.basic_pay)}
-      %td(colspan="2") Tax Deducted at Source (TDS)
-      %td.right_align #{number_to_indian_currency(obj.tds)}
+      %td(colspan="2") Employees Contribution to PF (EPF)
+      %td.right_align #{number_to_indian_currency(obj.pf_amount)}
 
     - [obj.earnings.count, obj.deductions.count].max.times do |i|
       - earning = obj.earnings[i] || []
