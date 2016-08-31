@@ -8,6 +8,10 @@ ActiveAdmin.register PaySlip do
   actions :all, except: [:edit, :update, :destroy]
 
   controller do
+    def scoped_collection
+      super.includes :admin_user
+    end
+
     def create
       pay_slip_params = params.require(:pay_slip).permit(:month, :year, :file)
       pay_slip = PaySlip.new(pay_slip_params)

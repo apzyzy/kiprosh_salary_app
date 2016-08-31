@@ -1,10 +1,13 @@
 class ProcessExcelRow
-  attr_reader :month, :year, :row
+  attr_reader :month, :year, :row, :pf_rate, :gratuity_rate, :excluded_earnings
 
-  def initialize(month, year, row)
+  def initialize(month, year, row, opts)
     @month = month
     @year = year
     @row = row
+    @pf_rate = opts[:pf_rate]
+    @gratuity_rate = opts[:gratuity_rate]
+    @excluded_earnings = opts[:excluded_earnings]
   end
 
   def associate
@@ -40,12 +43,11 @@ class ProcessExcelRow
   end
 
   def earnings
-    except(row_to_a[2..17], earnings_to_exclude)
+    except(row_to_a[2..17], excluded_earnings)
   end
 
   def gratuity
-    rate = Configuration.get_value('gratuity_rate')
-    ((basic_pay.to_i * rate) / 100).floor
+    ((basic_pay.to_i * gratuity_rate) / 100).floor
   end
 
   def net_amount
@@ -57,8 +59,7 @@ class ProcessExcelRow
   end
 
   def pf_amount
-    rate = Configuration.get_value('pf_rate')
-    ((basic_pay.to_i * rate) / 100).floor
+    ((basic_pay.to_i * pf_rate) / 100).floor
   end
 
   def remarks
@@ -80,23 +81,16 @@ class ProcessExcelRow
 
   private
 
-  def earnings_to_exclude
-    exclude = ['basic pay'] # will be added in UI separately
-    exclude << 'special allowance' unless Configuration.enabled?('special_allowance')
-    exclude << 'telephone reimbusement' unless Configuration.enabled?('telephone_reimbusement')
-    exclude
-  end
-
   def except(arr, values)
     return arr unless arr.is_a?(Array)
     arr.reject { |a, b| a.downcase.in? values }
   end
 
   def row_hash
-    @row_hash ||= row.map {|k,v| [k.downcase.squish, v]}.to_h
+    @row_hash ||= row.map { |k,v| [k.downcase.squish, v] }.to_h
   end
 
   def row_to_a
-    @row_to_a ||= row.to_a
+    @row_to_a ||= row.to_a.map { |k,v| [k, v.to_f] }
   end
 end
