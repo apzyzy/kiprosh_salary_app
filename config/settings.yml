@@ -15,3 +15,4 @@ delayed_jobs:
 
 mailer:
   test_recipient: "<%= ENV['EMAIL_TEST_RECIPIENT'] %>"
+  test_accounts_email: "<%= ENV['TEST_ACCOUNTS_EMAIL'] %>"

@@ -6,5 +6,9 @@ class SendPaySlipJob < ApplicationJob
     return unless associate && associate&.email
 
     PaySlipMailer.email_payslip(obj).deliver_now
+
+    if obj.send_concern_email_to_accounts?
+      AccountsMailer.incorrect_calculation_email(obj).deliver_now
+    end
   end
 end

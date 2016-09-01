@@ -1,0 +1,29 @@
+%p Hello Sir,
+%p
+  While processing
+  %b #{@obj.pay_slip_period}
+  pay slip for our associate
+  %b #{@obj.associate_name},
+  we found issues with calculation.
+
+- if @obj.pf_amount_mismatch?
+  %p
+    PF amount in excel received is
+    %b Rs. #{@obj.pf_amount_from_excel},
+    whereas calculated value based on EPF rate of
+    %b #{@obj.pf_rate}%
+    comes out to be
+    %b Rs. #{@obj.calculated_pf_amount}.
+
+%p
+  Net amount comes out to be
+  %b Rs. #{@obj.calculated_net_amount}
+  as compared to
+  %b Rs. #{@obj.net_amount_in_excel}
+  in excel.
+
+%p Please take a note of this.
+
+%p PS: PFA pay slip of the associate.
+
+%p Thanks.
