@@ -5,7 +5,7 @@ ActiveAdmin.register PaySlip do
   filter :month
   filter :year
 
-  actions :all, except: [:edit, :update, :destroy]
+  actions :all, except: [:edit, :show, :update]
 
   controller do
     def scoped_collection
@@ -33,6 +33,8 @@ ActiveAdmin.register PaySlip do
     column :year
     column :admin_user
     column :created_at
+
+    actions
   end
 
   form do |f|

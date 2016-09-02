@@ -1,5 +1,5 @@
 class ProcessExcelRow
-  attr_reader :month, :year, :row, :pf_rate, :gratuity_rate, :excluded_earnings
+  attr_reader :month, :year, :row, :pf_rate, :gratuity_rate, :earnings_to_exclude_if_empty
 
   def initialize(month, year, row, opts)
     @month = month
@@ -7,7 +7,7 @@ class ProcessExcelRow
     @row = row
     @pf_rate = opts[:pf_rate]
     @gratuity_rate = opts[:gratuity_rate]
-    @excluded_earnings = opts[:excluded_earnings]
+    @earnings_to_exclude_if_empty = opts[:earnings_to_exclude_if_empty]
   end
 
   def associate
@@ -31,7 +31,7 @@ class ProcessExcelRow
   end
 
   def basic_pay
-    row_hash['basic pay']
+    row_hash['basic pay'].to_f.round
   end
 
   def days_paid
@@ -43,15 +43,24 @@ class ProcessExcelRow
   end
 
   def earnings
-    except(row_to_a[2..17], excluded_earnings)
+    except(row_to_a[2..17], ['basic pay'])
   end
 
   def gratuity
-    ((basic_pay.to_i * gratuity_rate) / 100).floor
+    ((basic_pay.to_f * gratuity_rate) / 100).round
   end
 
   def net_amount
-    row_hash['net amount']
+    (total_earnings - total_deductions).round
+  end
+  alias_method :calculated_net_amount, :net_amount
+
+  def net_amount_in_excel
+    row_hash['net amount'].to_f.round
+  end
+
+  def net_amount_mismatch?
+    calculated_net_amount != net_amount_in_excel
   end
 
   def pay_slip_period
@@ -59,26 +68,43 @@ class ProcessExcelRow
   end
 
   def pf_amount
-    ((basic_pay.to_i * pf_rate) / 100).floor
+    ((basic_pay.to_f * pf_rate) / 100).round
+  end
+  alias_method :calculated_pf_amount, :pf_amount
+
+  def pf_amount_from_excel
+    row_hash['employees contribution to pf (epf)'].to_f.round
+  end
+
+  def pf_amount_mismatch?
+    calculated_pf_amount != pf_amount_from_excel
   end
 
   def remarks
     row_hash['remarks'].split(";")
   end
 
+  def send_concern_email_to_accounts?
+    pf_amount_mismatch? || net_amount_mismatch?
+  end
+
   def total_deductions
-    row_to_a[23][1]
+    deductions.map { |k,v| v.to_f }.sum + pf_amount
   end
 
   def total_earnings
-    row_to_a[18][1]
+    earnings.map { |k,v| v.to_f }.sum + basic_pay
   end
 
   private
 
   def except(arr, values)
     return arr unless arr.is_a?(Array)
-    arr.reject { |a, b| a.downcase.in? values }
+    arr.reject { |a, b| a.downcase.in?(values) || exclude_if_empty?(a, b) }
+  end
+
+  def exclude_if_empty?(a, b)
+    a.downcase.in?(earnings_to_exclude_if_empty) && b.zero?
   end
 
   def row_hash
