@@ -1,5 +1,8 @@
 %p Hello Sir,
 %p
+  %b Needs immediate action / correction / verification.
+
+%p
   While processing
   %b #{@obj.pay_slip_period}
   pay slip for our associate
@@ -8,7 +11,7 @@
 
 - if @obj.pf_amount_mismatch?
   %p
-    PF amount in excel received is
+    PF amount in excel is
     %b Rs. #{@obj.pf_amount_from_excel},
     whereas calculated value based on EPF rate of
     %b #{@obj.pf_rate}%

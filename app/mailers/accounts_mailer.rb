@@ -1,8 +1,9 @@
 class AccountsMailer < ApplicationMailer
   add_template_helper(ApplicationHelper)
 
-  default from: 'do-not-reply@kiprosh.com'
-  default to: Settings.mailer.test_accounts_email #|| 'accounts@kiprosh.com'
+  default from: 'do-not-reply@kiprosh.com',
+          to: Settings.mailer.test_accounts_email || 'accounts@kiprosh.com',
+          cc: Settings.mailer.cc_accounts_email
 
   def incorrect_calculation_email(obj)
     @obj = obj
