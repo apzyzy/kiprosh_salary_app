@@ -8,7 +8,7 @@
         %span.title.float_right Payslip
       %td.width20.center_align(colspan="1") #{obj.month} #{obj.year}
     %tr.bold{style: "background-color: #f4f4f4"}
-      %td.width50.center_align(colspan="3") Employee Details
+      %td.width50.center_align(colspan="3") Associate Details
       %td.width50.center_align(colspan="3") Payment & Location Details
     %tr
       %td.bold Employee Number
@@ -49,7 +49,7 @@
         %td(colspan="2") #{deduction[0]}
         %td.right_align #{number_to_indian_currency(deduction[1])}
 
-    %tr.bold.big_font{style: "background-color: #f4f4f4"}
+    %tr.bold.big_font.gray-background
       %td.center_align Total Earnings
       %td.right_align(colspan="2") #{number_to_indian_currency(obj.total_earnings)}
       %td.center_align(colspan="2") Total deductions
@@ -63,12 +63,12 @@
       %td.blank_row
 
     %tr.bold
-      %td.blue_background.center_align.border_top{rowspan: "2"} Retirals
+      %td.blue_background.center_align.border_top.bold.big_font{rowspan: "2"} Retirals
       %td.center_align.border_top.width10 Provident Fund
       %td.center_align.border_top.width10 Gratuity
       %td.blank_row{rowspan: "2"} &nbsp;
       %td.blue_background.center_align.border_top.border_left{rowspan: "2"}
-        %span Net pay
+        %span.bold.big_font Net pay
         %span.smaller_font (INR)
       %td.border_top.right_align{rowspan: "2"} #{number_to_indian_currency(obj.net_amount)}
     %tr.bold
@@ -84,7 +84,7 @@
 
     - if obj.remarks.present?
       %tr
-        %td.border_top{colspan: "1"} Remarks
+        %td.border_top.bold.big_font.gray-background.center_align{colspan: "1"} Remarks
         %td.border_top{colspan: "5"}
           %ul
             - obj.remarks.each do |remark|

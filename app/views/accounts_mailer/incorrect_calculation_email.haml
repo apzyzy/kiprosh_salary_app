@@ -1,13 +1,14 @@
-%p Hello Sir,
 %p
-  %b Needs immediate action / correction / verification.
+  %b Need immediate action / correction / verification.
+
+%p Hello Sir,
 
 %p
   While processing
   %b #{@obj.pay_slip_period}
   pay slip for our associate
   %b #{@obj.associate_name},
-  we found issues with calculation.
+  we found issues with salary calculation.
 
 - if @obj.pf_amount_mismatch?
   %p
