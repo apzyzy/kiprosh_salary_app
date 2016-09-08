@@ -14,6 +14,6 @@ delayed_jobs:
   enabled: <%= !!ENV['DELAYED_JOBS_ENABLED'] %>
 
 mailer:
-  test_recipient: "<%= ENV['EMAIL_TEST_RECIPIENT'] %>"
-  test_accounts_email: "<%= ENV['TEST_ACCOUNTS_EMAIL'] %>"
-  cc_accounts_email: "<%= ENV['CC_ACCOUNTS_EMAIL'] %>"
+  test_recipient: <%= ENV['EMAIL_TEST_RECIPIENT'] %>
+  test_accounts_email: <%= ENV['TEST_ACCOUNTS_EMAIL'] %>
+  cc_accounts_email: <%= ENV['CC_ACCOUNTS_EMAIL'] %>
