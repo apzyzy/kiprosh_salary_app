@@ -81,7 +81,7 @@ class ProcessExcelRow
   end
 
   def remarks
-    row_hash['remarks'].split(";")
+    row_hash['remarks']&.split(";")
   end
 
   def send_concern_email_to_accounts?
