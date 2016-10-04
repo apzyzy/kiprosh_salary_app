@@ -6,7 +6,7 @@ class PaySlip < ApplicationRecord
   validates :month, uniqueness: { scope: :year }
   validates :month, :year, presence: true
   validate :presence_of_file, on: :create
-  validate :xlsx_file_extension, on: :create
+  validate :excel_file_extension, on: :create
 
   after_create :process_excel
 
@@ -14,7 +14,7 @@ class PaySlip < ApplicationRecord
 
   def presence_of_file
     unless file.present?
-      self.errors[:base] << "Please provide xlsx file."
+      self.errors[:base] << "Please provide .xlsx or .xls file."
       return false
     end
   end
@@ -23,11 +23,11 @@ class PaySlip < ApplicationRecord
     ProcessExcel.new(month, year, file).process
   end
 
-  def xlsx_file_extension
+  def excel_file_extension
     return unless file.present?
     extension = File.extname(file.original_filename)
-    if extension != ".xlsx"
-      self.errors[:base] << "Invalid file extension. Please use .xlsx file."
+    if extension.in?(%w(.xlsx .xls))
+      self.errors[:base] << "Invalid file extension. Please use .xlsx or .xls file."
     end
   end
 end
