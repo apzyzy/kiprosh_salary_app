@@ -26,7 +26,7 @@ class PaySlip < ApplicationRecord
   def excel_file_extension
     return unless file.present?
     extension = File.extname(file.original_filename)
-    if extension.in?(%w(.xlsx .xls))
+    unless extension.in?(%w(.xlsx .xls))
       self.errors[:base] << "Invalid file extension. Please use .xlsx or .xls file."
     end
   end
